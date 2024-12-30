@@ -5,11 +5,11 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
 	plugins: [react()],
 	server: {
-		port: 3000,
 		proxy: {
 			"/api": {
-				target: "http://localhost:5000",
+				target: "https://twitter-1a5z.onrender.com",
 				changeOrigin: true,
+				rewrite: (path) => path.replace(/^\/api/, ""),
 			},
 		},
 	},

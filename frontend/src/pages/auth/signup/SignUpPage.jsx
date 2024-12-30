@@ -9,7 +9,7 @@ import { MdPassword } from "react-icons/md";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-
+const apiUrl = 'https://twitter-1a5z.onrender.com';
 const SignUpPage = () => {
 	const [formData, setFormData] = useState({
 		email: "",
@@ -23,7 +23,7 @@ const SignUpPage = () => {
 	const { mutate, isError, isPending, error } = useMutation({
 		mutationFn: async ({ email, username, fullName, password }) => {
 			try {
-				const res = await fetch("/api/auth/signup", {
+				const res = await fetch(`${apiUrl}/api/auth/signup`, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
