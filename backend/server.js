@@ -22,9 +22,16 @@ cloudinary.config({
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const allowedOrigins = ["https://shimmering-scone-9462ea.netlify.app"];
 app.use(cors({
-	credentials: true,
-	origin: process.env.CLIENT_URL,
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true, // Include cookies in cross-origin requests
 }));
 
 app.use(express.json({ limit: "5mb" })); // to parse req.body
