@@ -24,15 +24,16 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const allowedOrigins = ["https://shimmering-scone-9462ea.netlify.app"];
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true, // Include cookies in cross-origin requests
-}));
+	origin: (origin, callback) => {
+	  if (!origin || allowedOrigins.includes(origin)) {
+		callback(null, true);
+	  } else {
+		callback(new Error("Not allowed by CORS"));
+	  }
+	},
+	credentials: true, // Ensures cookies are included with cross-origin requests
+	optionsSuccessStatus: 200, // Helps with compatibility for older browsers (HTTP 204 issue)
+  }));
 
 app.use(express.json({ limit: "5mb" })); // to parse req.body
 // limit shouldn't be too high to prevent DOS

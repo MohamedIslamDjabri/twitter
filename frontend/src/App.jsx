@@ -15,23 +15,25 @@ import LoadingSpinner from "./components/common/LoadingSpinner";
 const apiUrl = "https://twitter-1a5z.onrender.com";
 
 function App() {
-  const { data: authUser, isLoading, isError, error } = useQuery({
-    queryKey: ["authUser"],
-    queryFn: async () => {
-      const res = await fetch(`${apiUrl}/api/auth/me`, {
-        credentials: "include", // Ensures cookies are sent with the request
-      });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Failed to fetch user data");
-      }
-
-      const data = await res.json();
-      return data;
-    },
-    retry: false,
-  });
+	const { data: authUser, isLoading, isError, error } = useQuery({
+		queryKey: ["authUser"],
+		queryFn: async () => {
+		  const res = await fetch(`${apiUrl}/api/auth/me`, {
+			credentials: "include", // Ensures cookies are sent with the request
+		  });
+	  
+		  if (!res.ok) {
+			const data = await res.json();
+			console.error('Error fetching authUser:', data);
+			throw new Error(data.error || "Failed to fetch user data");
+		  }
+	  
+		  const data = await res.json();
+		  return data;
+		},
+		retry: false,
+	  });
+	  
 
   if (isLoading) {
     return (
