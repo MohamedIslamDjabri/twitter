@@ -21,7 +21,10 @@ function App() {
 			try {
 				const res = await fetch(`${apiUrl}/api/auth/me`, {
           method: "GET",
-          credentials: "include",
+          credentials: "include", 
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
         });
 				const data = await res.json();
 				if (data.error) return null;
