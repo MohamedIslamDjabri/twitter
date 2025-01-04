@@ -1,15 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-const apiUrl = 'https://twitter-1a5z.onrender.com';
+import axios from "axios";
 const useFollow = () => {
 	const queryClient = useQueryClient();
 
 	const { mutate: follow, isPending } = useMutation({
 		mutationFn: async (userId) => {
 			try {
-				const res = await fetch(`${apiUrl}/api/users/follow/${userId}`, {
-					method: "POST",
-				});
+				const res = await axios.post(`/api/users/follow/${userId}`);
 
 				const data = await res.json();
 				if (!res.ok) {

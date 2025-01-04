@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import XSvg from "../../../components/svgs/X";
-
+import axios from "axios";
 import { MdOutlineMail } from "react-icons/md";
 import { MdPassword } from "react-icons/md";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-const apiUrl = 'https://twitter-1a5z.onrender.com';
 const LoginPage = () => {
 	const [formData, setFormData] = useState({
 		username: "",
@@ -22,14 +21,17 @@ const LoginPage = () => {
 	} = useMutation({
 		mutationFn: async ({ username, password }) => {
 			try {
-				const res = await fetch(`${apiUrl}/api/auth/login`, {
-					method: "POST",
-					headers: {
+				const res = await axios.post(
+					'/api/auth/login', // Backend endpoint
+					{ username, password }, // Request body
+					{
+					  withCredentials: true, // Include cookies
+					  headers: {
 						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ username, password }),
-				});
-
+					  },
+					}
+				  );
+				  
 				const data = await res.json();
 
 				if (!res.ok) {

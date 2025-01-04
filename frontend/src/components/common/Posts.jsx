@@ -2,20 +2,19 @@ import Post from "./Post";
 import PostSkeleton from "../skeletons/PostSkeleton";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-const apiUrl = 'https://twitter-1a5z.onrender.com';
 const Posts = ({ feedType, username, userId }) => {
 	const getPostEndpoint = () => {
 		switch (feedType) {
 			case "forYou":
-				return `${apiUrl}/api/posts/all`;
+				return `/api/posts/all`;
 			case "following":
-				return `${apiUrl}/api/posts/following`;
+				return `/api/posts/following`;
 			case "posts":
-				return `${apiUrl}/api/posts/user/${username}`;
+				return `/api/posts/user/${username}`;
 			case "likes":
-				return `${apiUrl}/api/posts/likes/${userId}`;
+				return `/api/posts/likes/${userId}`;
 			default:
-				return `${apiUrl}/api/posts/all`;
+				return `/api/posts/all`;
 		}
 	};
 

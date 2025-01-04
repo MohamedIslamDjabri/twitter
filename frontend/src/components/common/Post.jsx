@@ -7,10 +7,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
-
+import axios from "axios";
 import LoadingSpinner from "./LoadingSpinner";
 import { formatPostDate } from "../../utils/date";
-const apiUrl = 'https://twitter-1a5z.onrender.com';
 const Post = ({ post }) => {
 	const [comment, setComment] = useState("");
 	const { data: authUser } = useQuery({ queryKey: ["authUser"] });
@@ -25,9 +24,7 @@ const Post = ({ post }) => {
 	const { mutate: deletePost, isPending: isDeleting } = useMutation({
 		mutationFn: async () => {
 			try {
-				const res = await fetch(`${apiUrl}/api/posts/${post._id}`, {
-					method: "DELETE",
-				});
+				const res = await axios.delete(`/api/posts/${post._id}`);
 				const data = await res.json();
 
 				if (!res.ok) {
@@ -47,9 +44,7 @@ const Post = ({ post }) => {
 	const { mutate: likePost, isPending: isLiking } = useMutation({
 		mutationFn: async () => {
 			try {
-				const res = await fetch(`${apiUrl}/api/posts/like/${post._id}`, {
-					method: "POST",
-				});
+				const res = await axios.post(`/api/posts/like/${post._id}`);
 				const data = await res.json();
 				if (!res.ok) {
 					throw new Error(data.error || "Something went wrong");
@@ -81,8 +76,7 @@ const Post = ({ post }) => {
 	const { mutate: commentPost, isPending: isCommenting } = useMutation({
 		mutationFn: async () => {
 			try {
-				const res = await fetch(`${apiUrl}/api/posts/comment/${post._id}`, {
-					method: "POST",
+				const res = await axios.post(`/api/posts/comment/${post._id}`, {
 					headers: {
 						"Content-Type": "application/json",
 					},

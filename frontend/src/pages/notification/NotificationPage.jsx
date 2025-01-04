@@ -1,20 +1,19 @@
 import { Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
-
+import axios from "axios";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
 
 import { IoSettingsOutline } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
-const apiUrl = 'https://twitter-1a5z.onrender.com';
 const NotificationPage = () => {
 	const queryClient = useQueryClient();
 	const { data: notifications, isLoading } = useQuery({
 		queryKey: ["notifications"],
 		queryFn: async () => {
 			try {
-				const res = await fetch(`${apiUrl}/api/notifications`);
+				const res = await axios.get(`/api/notifications`);
 				const data = await res.json();
 				if (!res.ok) throw new Error(data.error || "Something went wrong");
 				return data;
@@ -27,9 +26,7 @@ const NotificationPage = () => {
 	const { mutate: deleteNotifications } = useMutation({
 		mutationFn: async () => {
 			try {
-				const res = await fetch(`${apiUrl}/api/notifications`, {
-					method: "DELETE",
-				});
+				const res = await axios.delete(`/api/notifications`);
 				const data = await res.json();
 
 				if (!res.ok) throw new Error(data.error || "Something went wrong");

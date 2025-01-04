@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-
+import axios from "axios";
 import HomePage from "./pages/home/HomePage";
 import LoginPage from "./pages/auth/login/LoginPage";
 import SignUpPage from "./pages/auth/signup/SignUpPage";
@@ -12,20 +12,15 @@ import RightPanel from "./components/common/RightPanel";
 import { Toaster } from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "./components/common/LoadingSpinner";
-const apiUrl = 'https://twitter-1a5z.onrender.com';
 function App() {
+	axios.defaults.baseURL = 'https://twitter-1a5z.onrender.com';
+	axios.defaults.withCredentials = true;
 	const { data: authUser, isLoading } = useQuery({
 		// we use queryKey to give a unique name to our query and refer to it later
 		queryKey: ["authUser"],
 		queryFn: async () => {
 			try {
-				const res = await fetch(`${apiUrl}/api/auth/me`, {
-          method: "GET",
-          credentials: "include", 
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+				const res = await axios.get(`/api/auth/me`);
 				const data = await res.json();
 				if (data.error) return null;
 				if (!res.ok) {
