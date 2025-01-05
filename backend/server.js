@@ -25,6 +25,8 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({
 	credentials: true,
 	origin: process.env.CLIENT_URL,
+	methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 app.options('*', cors());
 app.use(express.json({ limit: "5mb" })); // to parse req.body
